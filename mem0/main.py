@@ -1,11 +1,12 @@
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 from mem0 import Memory
 
 load_dotenv()
 
 llm = ChatOpenAI(model="gpt-4o-mini")
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
 config = {
     "llm": {
@@ -21,6 +22,10 @@ config = {
             "user": "admin",
             "password": "admin",
         },
+    },
+    "embeddings": {
+        "provider": "langchain",
+        "config": {"model": embeddings},
     },
 }
 
