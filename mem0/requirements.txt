@@ -1,5 +1,0 @@
-mem0ai
-langchain
-langchain-openai
-python-dotenv
-elasticsearch

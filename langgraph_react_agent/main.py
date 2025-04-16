@@ -10,7 +10,9 @@ from langgraph.prebuilt import ToolNode, tools_condition
 
 load_dotenv()
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+# ------------------------------------------------------------------------------
+# TOOLS
+# ------------------------------------------------------------------------------
 
 
 def get_stock_price(ticker: str) -> float:
@@ -43,7 +45,13 @@ search = DuckDuckGoSearchRun()
 
 tools = [multiply, add, divide, subtract, search, get_stock_price]
 
+llm = ChatOpenAI(model="gpt-4o-mini")
+
 llm_with_tools = llm.bind_tools(tools)
+
+# ------------------------------------------------------------------------------
+# NODE FUNCTIONS
+# ------------------------------------------------------------------------------
 
 
 def reasoner(state: MessagesState):
@@ -51,6 +59,11 @@ def reasoner(state: MessagesState):
         content="You are a helpful assistant tasked with using search and performing arithmetic on a set of inputs."
     )
     return {"messages": [llm_with_tools.invoke([system_message] + state["messages"])]}
+
+
+# ------------------------------------------------------------------------------
+# GRAPH
+# ------------------------------------------------------------------------------
 
 
 class GraphState(MessagesState):
@@ -84,8 +97,8 @@ except Exception as e:
 
 
 @click.command()
-@click.option("--query", type=str, help="The query to search for")
-def main(query: str):
+@click.option("--query", type=str, help="The query to search for", default=None)
+def main(query: str | None):
     if query is None:
         query = input("Enter a query: ")
     messages = [

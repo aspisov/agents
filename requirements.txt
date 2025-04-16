@@ -1,0 +1,10 @@
+langchain
+langchain-community
+langchain-openai
+python-dotenv
+langgraph
+pyppeteer
+langchain-tavily
+elasticsearch
+mem0ai
+mcp
